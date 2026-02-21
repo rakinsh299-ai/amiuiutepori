@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UIU TE PORI - Your Academic Companion</title>
+<style>
+/* ==================== GLOBAL STYLES ==================== */
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; scroll-behavior: smooth; }
+body { background:#fafafa; color:#333; line-height:1.6; padding-top: 80px; }
+
+/* ==================== HEADER & NAV ==================== */
+header {
+    display:flex; justify-content: space-between; align-items:center; height:80px; background:#ff7a00;
+    padding:0 30px; box-shadow:0 4px 15px rgba(0,0,0,.15);
+    position: fixed; top:0; left:0; width:100%; z-index:1000;
+}
+.header-left h1 { color:#fff; font-size:24px; font-weight: 800; letter-spacing: 1px; }
+
+.header-right { display: flex; gap: 20px; align-items: center; }
+.header-right a { 
+    color: #fff; text-decoration: none; font-size: 14px; font-weight: 600; 
+    transition: 0.3s; padding: 8px 12px; border-radius: 8px;
+}
+.header-right a:hover { background: rgba(255,255,255,0.2); }
+
+/* ==================== HERO & CARDS ==================== */
+.hero { text-align:center; padding:50px 20px 20px; }
+.hero h2 { font-size:36px; color:#ff7a00; font-weight: 800; }
+.links { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; padding:20px; }
+.card {
+    width:260px; background:#fff; border-radius:15px; padding:25px;
+    text-align:center; text-decoration:none; color:#333;
+    border-top:6px solid #ff7a00; box-shadow:0 8px 25px rgba(0,0,0,.08); transition:.3s;
+}
+.card:hover { transform: translateY(-8px); }
+.card h3 { color:#ff7a00; margin-bottom:10px; }
+
+/* ==================== AI TOOLS ==================== */
+.ai-links { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
+.ai-card {
+    flex: 1 1 calc(20% - 15px); min-width: 110px; background: #fff;
+    border-radius: 10px; padding: 12px 15px; text-align: center;
+    text-decoration: none; color: #ff7a00; border: 2px solid #ff7a00;
+    font-weight: bold; transition: .3s; box-shadow: 0 4px 10px rgba(0,0,0,.05);
+}
+.ai-card:hover { background: #ff7a00; color: #fff; transform: translateY(-3px); }
+
+/* ==================== SMART STUDY ==================== */
+.smart-study-section { background:#fff; padding:60px 20px; }
+.smart-study-box { 
+    max-width:550px; margin:auto; background:#fff; padding:40px; 
+    border-radius:30px; border: 2px solid #ffe6d5;
+    box-shadow:0 20px 40px rgba(255,122,0,0.1); text-align:center; position:relative; 
+}
+.smart-study-box h2 { color:#ff7a00; font-size:28px; margin-bottom:20px; }
+
+.styled-select {
+    width: 100%; padding: 15px; border-radius: 12px;
+    border: 2px solid #ff7a00; background: #fff;
+    font-size: 16px; font-weight: 600; color: #444;
+    outline: none; cursor: pointer; appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23ff7a00" d="M5 7l5 5 5-5z"/></svg>');
+    background-repeat: no-repeat; background-position: right 15px center;
+    margin-bottom: 25px; transition: 0.3s;
+}
+
+.study-step { display:none; animation: slideIn 0.5s ease; }
+.active-step { display:block; }
+@keyframes slideIn { from {opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);} }
+
+#stopwatchDisplay { font-size:65px; font-weight:800; color:#ff7a00; margin:15px 0; letter-spacing: -2px; }
+.caring-msg { font-size:14px; color:#666; font-style:italic; background:#fff2e8; padding:15px; border-radius:12px; border-left: 5px solid #ff7a00; margin-bottom:15px; }
+
+/* ==================== CGPA SECTION ==================== */
+.cgpa-section { background:#fff7f0; padding:60px 20px; }
+.cgpa-box { max-width:800px; margin:auto; background:#fff; padding:30px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.05); }
+.cgpa-box h2 { text-align:center; color:#ff7a00; margin-bottom:20px; }
+table { width:100%; border-collapse:collapse; margin-bottom: 15px; }
+th { background:#ff7a00; color:white; padding:12px; border-radius: 5px; }
+td { padding:10px; }
+input { width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; outline:none; }
+.btn { margin: 5px; padding:12px 20px; background:#ff7a00; color:white; border:none; border-radius:10px; cursor:pointer; font-weight:bold; transition: 0.2s; box-shadow: 0 4px 10px rgba(255,122,0,0.2); }
+.btn:hover { background:#e66a00; transform: translateY(-2px); }
+
+/* ==================== SNAKE D-PAD CONTROLS ==================== */
+.controls { 
+    display: none; 
+    grid-template-columns: repeat(3, 60px); 
+    grid-template-rows: repeat(3, 60px); 
+    gap: 8px; 
+    justify-content: center; 
+    margin: 20px auto; 
+}
+.controls button { 
+    width: 60px; height: 60px; background: #ff7a00; color: white; 
+    border: none; border-radius: 12px; font-size: 24px; font-weight: bold; cursor: pointer; 
+    box-shadow: 0 4px 0 #cc6200;
+}
+.controls button:active { transform: translateY(2px); box-shadow: 0 2px 0 #cc6200; }
+.btn-up { grid-column: 2; grid-row: 1; }
+.btn-left { grid-column: 1; grid-row: 2; }
+.btn-right { grid-column: 3; grid-row: 2; }
+.btn-down { grid-column: 2; grid-row: 3; }
+
+/* ==================== GAME & CALENDAR ==================== */
+.game-section { background:#fff2e8; padding:60px 20px; text-align: center; }
+.game-box { max-width:600px; margin:auto; background:#fff; padding:30px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+canvas { background:#000; border:4px solid #ff7a00; border-radius:10px; display:block; margin: 20px auto; max-width: 100%; }
+
+.calendar-section { padding: 60px 20px; background: #fff; text-align: center; }
+.calendar-container { max-width: 1000px; margin: auto; height: 600px; border: 5px solid #ff7a00; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
+iframe { width: 100%; height: 100%; border: none; }
+
+@media(max-width:768px){ 
+    header { padding: 0 15px; }
+    .header-left h1 { font-size: 18px; }
+    .header-right { gap: 8px; }
+    .header-right a { font-size: 11px; padding: 5px; }
+    .hero h2{ font-size:28px;} 
+    #stopwatchDisplay{ font-size:48px;} 
+    .calendar-container { height: 400px; }
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <h1>UIU TE PORI</h1>
+  </div>
+  <nav class="header-right">
+    <a href="https://www.uiu.ac.bd/notice/" target="_blank">📢 Notices</a>
+    <a href="https://ucamcloud.uiu.ac.bd/" target="_blank">☁️ Cloud</a>
+    <a href="#academic-calendar">📅 Calendar</a>
+    <a href="#game-section">🎮 Relax</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h2>Smart Tools for Smart Students</h2>
+</section>
+
+<section class="links">
+    <a class="card" href="https://ucam.uiu.ac.bd/" target="_blank"><h3>EMS</h3><p>Registration & Results</p></a>
+    <a class="card" href="https://elms.uiu.ac.bd/" target="_blank"><h3>ELMS</h3><p>Assignment & Resources</p></a>
+    <a class="card" href="https://uiuqb.vercel.app/" target="_blank"><h3>Question Bank</h3><p>Previous Questions</p></a>
+</section>
+
+<section style="background:transparent; padding: 10px 20px;">
+    <div style="max-width: 900px; margin: auto; text-align: center;">
+        <h2 style="color:#ff7a00; margin-bottom:10px;">AI & Design Tools</h2>
+        <div class="ai-links">
+            <a class="ai-card" href="https://chat.openai.com/" target="_blank">ChatGPT</a>
+            <a class="ai-card" href="https://gemini.google.com/" target="_blank">Gemini</a>
+            <a class="ai-card" href="https://claude.ai/" target="_blank">Claude</a>
+            <a class="ai-card" href="https://www.perplexity.ai/" target="_blank">Perplexity</a>
+            <a class="ai-card" href="https://www.canva.com/" target="_blank">Canva</a>
+        </div>
+    </div>
+</section>
+
+<section class="smart-study-section">
+    <div class="smart-study-box">
+        <h2>Smart Study 🧠</h2>
+        <div id="step1" class="study-step active-step">
+            <p style="margin-bottom:10px; font-weight:600;">How many hours to study?</p>
+            <select id="studyHours" class="styled-select">
+                <option value="1">1 Hour</option>
+                <option value="2">2 Hours</option>
+                <option value="3">3 Hours</option>
+                <option value="4">4 Hours</option>
+                <option value="5">5 Hours</option>
+                <option value="10">10 Hours</option>
+            </select>
+            <button class="btn" style="width:100%" onclick="nextStep(2)">Next ❯</button>
+        </div>
+        <div id="step2" class="study-step">
+            <p style="margin-bottom:10px; font-weight:600;">Your Student Type?</p>
+            <select id="studentType" class="styled-select">
+                <option value="procrastinator">Procrastinator (Needs Breaks)</option>
+                <option value="average">Balanced (Moderate)</option>
+                <option value="topper">Topper (Long Sessions)</option>
+            </select>
+            <button class="btn" style="width:100%" onclick="nextStep(3)">Next ❯</button>
+        </div>
+        <div id="step3" class="study-step">
+            <p style="margin-bottom:10px; font-weight:600;">Subject Type?</p>
+            <select id="subjectType" class="styled-select">
+                <option value="math">Math / Coding</option>
+                <option value="theory">Theory / Reading</option>
+            </select>
+            <button class="btn" style="width:100%" onclick="generatePlan()">Generate My Plan ✨</button>
+        </div>
+        <div id="step4" class="study-step">
+            <div id="planList" style="text-align:left; background:#fff7f0; padding:20px; border-radius:15px; margin-bottom:20px; border: 1px dashed #ff7a00;"></div>
+            <button class="btn" style="width:100%" onclick="startSmartStudy()">Cholo Pori 🚀</button>
+        </div>
+        <div id="step5" class="study-step">
+            <div id="stopwatchDisplay">00:00:00</div>
+            <p class="caring-msg">"Feeling Stressed? Take a break and <a href="#game-section" onclick="togglePause(true)">play games!</a> 🎮"</p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn" id="pauseBtn" style="flex:1; background:#555;" onclick="togglePause(false)">Pause</button>
+                <button class="btn" style="flex:1; background:#ccc; color:#333;" onclick="resetStudy()">Reset</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cgpa-section">
+    <div class="cgpa-box">
+        <h2>UIU CGPA Calculator</h2>
+        <table id="cgTable">
+            <thead><tr><th>Course Name</th><th>Credit</th><th>Grade Point</th></tr></thead>
+            <tbody id="cgBody">
+                <tr>
+                    <td><input type="text" placeholder="SPL" class="course-name"></td>
+                    <td><input type="number" step="0.5" placeholder="3.0" class="course-credit"></td>
+                    <td><input type="number" step="0.01" placeholder="4.00" class="course-grade"></td>
+                </tr>
+            </tbody>
+        </table>
+        <div style="display:flex; gap:10px; justify-content:center; flex-wrap:wrap;">
+            <button class="btn" onclick="addRow()">+ Add Course</button>
+            <button class="btn" onclick="calculateCGPA()">📊 Calculate</button>
+            <button class="btn" style="background:#333;" onclick="downloadResult()">💾 Download</button>
+        </div>
+        <div id="result" class="result"></div>
+    </div>
+</section>
+
+<section class="game-section" id="game-section">
+    <div class="game-box">
+        <h2 style="color:#ff7a00;">Relax Mode 🎮</h2>
+        <div style="margin-bottom: 20px;">
+            <button class="btn" onclick="initTicTacToe()">Tic-Tac-Toe (Hard)</button>
+            <button class="btn" onclick="initSnake()">Snake Game</button>
+        </div>
+        <div id="game-container"><p style="padding:20px;">Select a game to chill!</p></div>
+        
+        <div class="controls" id="mobile-controls">
+            <button class="btn-up" onclick="changeDir(0,-1)">↑</button>
+            <button class="btn-left" onclick="changeDir(-1,0)">←</button>
+            <button class="btn-right" onclick="changeDir(1,0)">→</button>
+            <button class="btn-down" onclick="changeDir(0,1)">↓</button>
+        </div>
+    </div>
+</section>
+
+<section class="calendar-section" id="academic-calendar">
+    <h2 style="color:#ff7a00; margin-bottom: 20px;">UIU Academic Calendar 📅</h2>
+    <div class="calendar-container">
+        <iframe src="https://www.uiu.ac.bd/academics/calendar/" title="UIU Calendar"></iframe>
+    </div>
+</section>
+
+<script>
+/* VOICE SYNTHESIS */
+function speak(text) {
+    const msg = new SpeechSynthesisUtterance(text);
+    msg.rate = 0.9;
+    window.speechSynthesis.speak(msg);
+}
+
+/* CGPA LOGIC */
+function addRow(){
+    let row = document.getElementById("cgBody").insertRow();
+    row.innerHTML = '<td><input type="text" class="course-name"></td><td><input type="number" step="0.5" class="course-credit"></td><td><input type="number" step="0.01" class="course-grade"></td>';
+}
+function calculateCGPA(){
+    let credits = document.getElementsByClassName("course-credit"), grades = document.getElementsByClassName("course-grade");
+    let tP=0, tC=0;
+    for(let i=0; i<credits.length; i++){
+        let c = parseFloat(credits[i].value), g = parseFloat(grades[i].value);
+        if(c && !isNaN(g)){ tC+=c; tP+=c*g; }
+    }
+    let res = tC ? (tP/tC).toFixed(2) : "0.00";
+    document.getElementById("result").innerText = "Total CGPA: " + res;
+    return { res, tC };
+}
+function downloadResult(){
+    let n = document.getElementsByClassName("course-name"), c = document.getElementsByClassName("course-credit"), g = document.getElementsByClassName("course-grade");
+    let { res, tC } = calculateCGPA();
+    let txt = "--- UIU ACADEMIC RECORD ---\n\n";
+    for(let i=0; i<n.length; i++) txt += `${n[i].value || 'N/A'}\t| Credit: ${c[i].value || '0'}\t| GP: ${g[i].value || '0'}\n`;
+    txt += `\nTotal Credit: ${tC}\nFinal CGPA: ${res}`;
+    let blob = new Blob([txt], {type:"text/plain"}), a = document.createElement("a");
+    a.href = URL.createObjectURL(blob); a.download = "UIU_Result.txt"; a.click();
+}
+
+/* SMART STUDY LOGIC */
+let sSec=0, sTimer, bInt=45, isP=false, targetSecs=0;
+function nextStep(s){ document.querySelectorAll('.study-step').forEach(e=>e.classList.remove('active-step')); document.getElementById('step'+s).classList.add('active-step'); }
+function generatePlan(){
+    let hours = document.getElementById("studyHours").value;
+    targetSecs = hours * 3600;
+    let type = document.getElementById("studentType").value;
+    let sub = document.getElementById("subjectType").value;
+    bInt = type === "procrastinator" ? 25 : (type === "topper" ? 60 : 45);
+    let advice = sub === "math" ? "Solve 10 problems per session." : "Make summaries after each chapter.";
+    document.getElementById("planList").innerHTML = `<strong style="color:#ff7a00">Plan Summary:</strong><br>📅 Total: ${hours} Hours<br>⏱ Session: ${bInt} mins focus / 5 mins break<br>💡 Advice: ${advice}`;
+    nextStep(4);
+}
+function startSmartStudy(){ 
+    nextStep(5); speak("Let's start studying"); runTimer(); 
+}
+function runTimer(){ isP=false; document.getElementById("pauseBtn").innerText="Pause"; sTimer = setInterval(()=>{ sSec++; updateDisp(); }, 1000); }
+function updateDisp(){
+    let h=Math.floor(sSec/3600), m=Math.floor((sSec%3600)/60), s=sSec%60;
+    document.getElementById("stopwatchDisplay").innerText = `${h<10?'0':''}${h}:${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
+    if(sSec >= targetSecs && targetSecs > 0) { clearInterval(sTimer); speak("The timer has ended"); alert("Session complete!"); }
+}
+function togglePause(force){ if(force || !isP){ clearInterval(sTimer); isP=true; document.getElementById("pauseBtn").innerText="Resume"; } else runTimer(); }
+function resetStudy(){ clearInterval(sTimer); sSec=0; nextStep(1); }
+
+/* GAMES */
+let board = ["","","","","","","","",""], gameActive = false;
+let snakeTimer, snakeDx = 1, snakeDy = 0;
+
+function initTicTacToe() {
+    clearInterval(snakeTimer); document.getElementById('mobile-controls').style.display = 'none';
+    const container = document.getElementById('game-container');
+    container.innerHTML = `<h3 id="ttt-status" style="color:#ff7a00; margin-bottom:10px;">Your Turn (X)</h3><table id="ttt-table" style="margin:auto; border-collapse:collapse;"></table>`;
+    board = ["","","","","","","","",""]; gameActive = true;
+    for(let i=0; i<3; i++) {
+        let row = document.getElementById('ttt-table').insertRow();
+        for(let j=0; j<3; j++) {
+            let cell = row.insertCell();
+            cell.style.width="75px"; cell.style.height="75px"; cell.style.border="3px solid #ff7a00"; cell.style.fontSize="30px"; cell.style.fontWeight="bold"; cell.style.cursor="pointer";
+            cell.onclick = () => { if(board[i*3+j]==="" && gameActive){ board[i*3+j]="X"; updateTTT(); if(!checkGameOver(board)) setTimeout(aiMove, 300); } };
+        }
+    }
+}
+
+function initSnake() {
+    gameActive=false; 
+    if(window.innerWidth <= 768) document.getElementById('mobile-controls').style.display = 'grid';
+    const container = document.getElementById('game-container');
+    container.innerHTML = `<canvas id="snakeCanvas" width="300" height="300"></canvas>`;
+    const ctx = document.getElementById('snakeCanvas').getContext('2d');
+    let snake = [{x:10, y:10}], apple = {x:5, y:5};
+    snakeDx = 1; snakeDy = 0;
+    
+    window.changeDir = (x,y) => { if(x + snakeDx !== 0 || y + snakeDy !== 0){ snakeDx = x; snakeDy = y; } };
+
+    clearInterval(snakeTimer);
+    snakeTimer = setInterval(() => {
+        let head = {x:(snake[0].x + snakeDx + 20) % 20, y:(snake[0].y + snakeDy + 20) % 20};
+        if(snake.some(s => s.x === head.x && s.y === head.y)) { clearInterval(snakeTimer); alert("Game Over!"); return; }
+        snake.unshift(head);
+        if(head.x === apple.x && head.y === apple.y) apple = {x:Math.floor(Math.random()*20), y:Math.floor(Math.random()*20)}; else snake.pop();
+        ctx.fillStyle="#111"; ctx.fillRect(0,0,300,300);
+        ctx.fillStyle="#ff7a00"; snake.forEach(s=>ctx.fillRect(s.x*15, s.y*15, 14, 14));
+        ctx.fillStyle="red"; ctx.fillRect(apple.x*15, apple.y*15, 14, 14);
+    }, 120);
+}
+
+/* KEYBOARD FIX */
+window.addEventListener("keydown", (e) => {
+    if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
+        e.preventDefault(); 
+        if(e.key === "ArrowUp" && snakeDy === 0) window.changeDir(0, -1);
+        if(e.key === "ArrowDown" && snakeDy === 0) window.changeDir(0, 1);
+        if(e.key === "ArrowLeft" && snakeDx === 0) window.changeDir(-1, 0);
+        if(e.key === "ArrowRight" && snakeDx === 0) window.changeDir(1, 0);
+    }
+});
+
+/* TIC TAC TOE AI */
+function aiMove() {
+    let bestScore = -Infinity; let move;
+    for(let i=0; i<9; i++) { if(board[i] === "") { board[i] = "O"; let score = minimax(board, 0, false); board[i] = ""; if(score > bestScore) { bestScore = score; move = i; } } }
+    board[move] = "O"; updateTTT(); checkGameOver(board);
+}
+function minimax(b, depth, isMax) {
+    let res = evaluate(b); if(res !== null) return res;
+    if(isMax) {
+        let best = -Infinity;
+        for(let i=0; i<9; i++) if(b[i]===""){ b[i]="O"; best=Math.max(best, minimax(b, depth+1, false)); b[i]=""; }
+        return best;
+    } else {
+        let best = Infinity;
+        for(let i=0; i<9; i++) if(b[i]===""){ b[i]="X"; best=Math.min(best, minimax(b, depth+1, true)); b[i]=""; }
+        return best;
+    }
+}
+function evaluate(b) {
+    const w = [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];
+    for(let l of w) if(b[l[0]] && b[l[0]]===b[l[1]] && b[l[0]]===b[l[2]]) return b[l[0]]==="O" ? 10 : -10;
+    return b.every(v=>v!=="") ? 0 : null;
+}
+function updateTTT() {
+    const cells = document.getElementById('ttt-table').getElementsByTagName('td');
+    for(let i=0; i<9; i++) { if(cells[i]) { cells[i].innerText = board[i]; if(board[i]==="O") cells[i].style.color="#ff7a00"; } }
+}
+function checkGameOver(b) {
+    let r = evaluate(b);
+    if(r===10) { document.getElementById('ttt-status').innerText="Bot Wins! 🤖"; gameActive=false; return true; }
+    if(r===-10) { document.getElementById('ttt-status').innerText="You Win! 🎉"; gameActive=false; return true; }
+    if(r===0) { document.getElementById('ttt-status').innerText="Draw! 🤝"; gameActive=false; return true; }
+    return false;
+}
+</script>
+</body>
+</html>
