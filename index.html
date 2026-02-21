@@ -5,16 +5,42 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UIU TE PORI - Your Academic Companion</title>
 <style>
-/* ==================== GLOBAL STYLES ==================== */
-* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; scroll-behavior: smooth; }
-body { background:#fafafa; color:#333; line-height:1.6; padding-top: 80px; }
+/* ==================== GLOBAL & THEME STYLES ==================== */
+:root {
+    --bg-main: #fafafa;
+    --text-main: #333;
+    --card-bg: #fff;
+    --sec-study: #fff;
+    --sec-cgpa: #fff7f0;
+    --sec-game: #fff2e8;
+    --border-color: #ddd;
+    --sidebar-bg: #222;
+    --sidebar-text: #ccc;
+}
 
-/* ==================== HEADER & NAV ==================== */
+body.dark-mode {
+    --bg-main: #121212;
+    --text-main: #f1f1f1;
+    --card-bg: #1e1e1e;
+    --sec-study: #181818;
+    --sec-cgpa: #1f1812;
+    --sec-game: #1a130d;
+    --border-color: #444;
+    --sidebar-bg: #111;
+    --sidebar-text: #ddd;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; font-family:"Segoe UI", sans-serif; scroll-behavior: smooth; }
+body { background:var(--bg-main); color:var(--text-main); line-height:1.6; padding-top: 80px; transition: background 0.3s, color 0.3s; }
+
+/* ==================== HEADER, NAV & SIDEBAR ==================== */
 header {
     display:flex; justify-content: space-between; align-items:center; height:80px; background:#ff7a00;
     padding:0 30px; box-shadow:0 4px 15px rgba(0,0,0,.15);
     position: fixed; top:0; left:0; width:100%; z-index:1000;
 }
+.header-left { display: flex; align-items: center; gap: 15px; }
+.menu-btn { font-size: 28px; color: white; cursor: pointer; font-weight: bold; }
 .header-left h1 { color:#fff; font-size:24px; font-weight: 800; letter-spacing: 1px; }
 
 .header-right { display: flex; gap: 20px; align-items: center; }
@@ -24,13 +50,39 @@ header {
 }
 .header-right a:hover { background: rgba(255,255,255,0.2); }
 
+/* Sidebar */
+.sidebar {
+    height: 100%; width: 250px; position: fixed; top: 0; left: -250px;
+    background-color: var(--sidebar-bg); overflow-x: hidden; transition: 0.4s ease;
+    padding-top: 85px; z-index: 999; box-shadow: 2px 0 15px rgba(0,0,0,0.5);
+}
+.sidebar a, .sidebar button {
+    padding: 15px 25px; text-decoration: none; font-size: 16px; font-weight: 600;
+    color: var(--sidebar-text); display: block; transition: 0.3s; background: none; border: none; width: 100%; text-align: left; cursor: pointer;
+}
+.sidebar a:hover, .sidebar button:hover { color: #ff7a00; background: rgba(255,255,255,0.05); }
+.overlay { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.5); z-index:998; }
+
+/* ==================== ABOUT MODAL ==================== */
+.modal {
+    display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%;
+    background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+}
+.modal-content {
+    background-color: var(--card-bg); margin: 10% auto; padding: 30px;
+    border-radius: 20px; width: 80%; max-width: 500px; text-align: center;
+    border: 2px solid #ff7a00; animation: modalPop 0.3s ease;
+}
+@keyframes modalPop { from {transform: scale(0.8); opacity: 0;} to {transform: scale(1); opacity: 1;} }
+.close-modal { float: right; font-size: 28px; font-weight: bold; cursor: pointer; color: #ff7a00; }
+
 /* ==================== HERO & CARDS ==================== */
 .hero { text-align:center; padding:50px 20px 20px; }
 .hero h2 { font-size:36px; color:#ff7a00; font-weight: 800; }
 .links { display:flex; gap:20px; justify-content:center; flex-wrap:wrap; padding:20px; }
 .card {
-    width:260px; background:#fff; border-radius:15px; padding:25px;
-    text-align:center; text-decoration:none; color:#333;
+    width:260px; background:var(--card-bg); border-radius:15px; padding:25px;
+    text-align:center; text-decoration:none; color:var(--text-main);
     border-top:6px solid #ff7a00; box-shadow:0 8px 25px rgba(0,0,0,.08); transition:.3s;
 }
 .card:hover { transform: translateY(-8px); }
@@ -39,7 +91,7 @@ header {
 /* ==================== AI TOOLS ==================== */
 .ai-links { display: flex; gap: 15px; justify-content: center; flex-wrap: wrap; margin-top: 15px; }
 .ai-card {
-    flex: 1 1 calc(20% - 15px); min-width: 110px; background: #fff;
+    flex: 1 1 calc(20% - 15px); min-width: 110px; background: var(--card-bg);
     border-radius: 10px; padding: 12px 15px; text-align: center;
     text-decoration: none; color: #ff7a00; border: 2px solid #ff7a00;
     font-weight: bold; transition: .3s; box-shadow: 0 4px 10px rgba(0,0,0,.05);
@@ -47,9 +99,9 @@ header {
 .ai-card:hover { background: #ff7a00; color: #fff; transform: translateY(-3px); }
 
 /* ==================== SMART STUDY ==================== */
-.smart-study-section { background:#fff; padding:60px 20px; }
+.smart-study-section { background:var(--sec-study); padding:60px 20px; transition: 0.3s; }
 .smart-study-box { 
-    max-width:550px; margin:auto; background:#fff; padding:40px; 
+    max-width:550px; margin:auto; background:var(--card-bg); padding:40px; 
     border-radius:30px; border: 2px solid #ffe6d5;
     box-shadow:0 20px 40px rgba(255,122,0,0.1); text-align:center; position:relative; 
 }
@@ -57,8 +109,8 @@ header {
 
 .styled-select {
     width: 100%; padding: 15px; border-radius: 12px;
-    border: 2px solid #ff7a00; background: #fff;
-    font-size: 16px; font-weight: 600; color: #444;
+    border: 2px solid #ff7a00; background: var(--card-bg);
+    font-size: 16px; font-weight: 600; color: var(--text-main);
     outline: none; cursor: pointer; appearance: none;
     background-image: url('data:image/svg+xml;charset=US-ASCII,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><path fill="%23ff7a00" d="M5 7l5 5 5-5z"/></svg>');
     background-repeat: no-repeat; background-position: right 15px center;
@@ -70,18 +122,25 @@ header {
 @keyframes slideIn { from {opacity:0; transform:translateY(15px);} to{opacity:1; transform:translateY(0);} }
 
 #stopwatchDisplay { font-size:65px; font-weight:800; color:#ff7a00; margin:15px 0; letter-spacing: -2px; }
-.caring-msg { font-size:14px; color:#666; font-style:italic; background:#fff2e8; padding:15px; border-radius:12px; border-left: 5px solid #ff7a00; margin-bottom:15px; }
+.caring-msg { font-size:14px; color:var(--text-main); font-style:italic; background:var(--sec-game); padding:15px; border-radius:12px; border-left: 5px solid #ff7a00; margin-bottom:15px; }
 
-/* ==================== CGPA SECTION ==================== */
-.cgpa-section { background:#fff7f0; padding:60px 20px; }
-.cgpa-box { max-width:800px; margin:auto; background:#fff; padding:30px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.05); }
-.cgpa-box h2 { text-align:center; color:#ff7a00; margin-bottom:20px; }
+/* ==================== CGPA & FINANCIAL SECTION ==================== */
+.cgpa-section { background:var(--sec-cgpa); padding:60px 20px; transition: 0.3s; }
+.financial-section { background:var(--sec-study); padding:60px 20px; transition: 0.3s; }
+
+.box-container { max-width:800px; margin:auto; background:var(--card-bg); padding:30px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,.05); border: 1px solid var(--border-color); }
+.box-container h2 { text-align:center; color:#ff7a00; margin-bottom:20px; }
+
 table { width:100%; border-collapse:collapse; margin-bottom: 15px; }
 th { background:#ff7a00; color:white; padding:12px; border-radius: 5px; }
 td { padding:10px; }
-input { width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; outline:none; }
+input { width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-color); outline:none; background:var(--bg-main); color:var(--text-main); }
 .btn { margin: 5px; padding:12px 20px; background:#ff7a00; color:white; border:none; border-radius:10px; cursor:pointer; font-weight:bold; transition: 0.2s; box-shadow: 0 4px 10px rgba(255,122,0,0.2); }
 .btn:hover { background:#e66a00; transform: translateY(-2px); }
+
+.result, .result-box { margin-top:15px; text-align:center; font-size:18px; color: #ff7a00; font-weight:bold; }
+.divider { height: 1px; background: var(--border-color); margin: 30px 0; }
+.flex-row { display: flex; gap: 10px; margin-bottom: 10px; }
 
 /* ==================== SNAKE D-PAD CONTROLS ==================== */
 .controls { 
@@ -104,13 +163,13 @@ input { width:100%; padding:10px; border-radius:8px; border:1px solid #ddd; outl
 .btn-down { grid-column: 2; grid-row: 3; }
 
 /* ==================== GAME & CALENDAR ==================== */
-.game-section { background:#fff2e8; padding:60px 20px; text-align: center; }
-.game-box { max-width:600px; margin:auto; background:#fff; padding:30px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
+.game-section { background:var(--sec-game); padding:60px 20px; text-align: center; transition: 0.3s; }
+.game-box { max-width:600px; margin:auto; background:var(--card-bg); padding:30px; border-radius:20px; box-shadow:0 10px 30px rgba(0,0,0,0.1); }
 canvas { background:#000; border:4px solid #ff7a00; border-radius:10px; display:block; margin: 20px auto; max-width: 100%; }
 
-.calendar-section { padding: 60px 20px; background: #fff; text-align: center; }
+.calendar-section { padding: 60px 20px; background: var(--sec-study); text-align: center; transition: 0.3s; }
 .calendar-container { max-width: 1000px; margin: auto; height: 600px; border: 5px solid #ff7a00; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.1); }
-iframe { width: 100%; height: 100%; border: none; }
+iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
 @media(max-width:768px){ 
     header { padding: 0 15px; }
@@ -120,13 +179,29 @@ iframe { width: 100%; height: 100%; border: none; }
     .hero h2{ font-size:28px;} 
     #stopwatchDisplay{ font-size:48px;} 
     .calendar-container { height: 400px; }
+    .flex-row { flex-direction: column; }
 }
 </style>
 </head>
 <body>
 
+<div id="aboutModal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeAbout()">&times;</span>
+        <h2 style="color:#ff7a00; margin-bottom:15px;">About Me</h2>
+        <p style="text-align:justify; margin-bottom:15px; font-size:15px;">
+            Hello! I am <strong>Rakin</strong>, a student of <strong>United International University (UIU)</strong> from batch <strong>252</strong>.
+        </p>
+        <p style="text-align:justify; font-size:15px;">
+            The inspiration for this project came from my messy browser. My computer's bookmarks were overflowing with different university links, calculators, and study tools. I felt the need to build an <strong>all-in-one website</strong> to merge everything I need for my academic life into a single companion.
+        </p>
+        <div style="margin-top:20px; font-weight:bold; color:#ff7a00;">Built for UIUians ❤️</div>
+    </div>
+</div>
+
 <header>
   <div class="header-left">
+    <div class="menu-btn" onclick="toggleMenu()">☰</div>
     <h1>UIU TE PORI</h1>
   </div>
   <nav class="header-right">
@@ -136,6 +211,18 @@ iframe { width: 100%; height: 100%; border: none; }
     <a href="#game-section">🎮 Relax</a>
   </nav>
 </header>
+
+<div id="overlay" class="overlay" onclick="toggleMenu()"></div>
+<div id="sidebar" class="sidebar">
+    <button onclick="toggleDarkMode()">🌓 Toggle Dark Mode</button>
+    <hr style="border-color: #333; margin: 10px 0;">
+    <a href="#academic-hub" onclick="toggleMenu()">📊 Academic Hub</a>
+    <a href="#financial-hub" onclick="toggleMenu()">💸 Installment Calc</a>
+    <a href="#study-hub" onclick="toggleMenu()">🧠 Smart Study</a>
+    <a href="#game-section" onclick="toggleMenu()">🎮 Relax Mode</a>
+    <hr style="border-color: #333; margin: 10px 0;">
+    <button onclick="openAbout()">👨‍💻 About Me</button>
+</div>
 
 <section class="hero">
   <h2>Smart Tools for Smart Students</h2>
@@ -160,7 +247,7 @@ iframe { width: 100%; height: 100%; border: none; }
     </div>
 </section>
 
-<section class="smart-study-section">
+<section class="smart-study-section" id="study-hub">
     <div class="smart-study-box">
         <h2>Smart Study 🧠</h2>
         <div id="step1" class="study-step active-step">
@@ -193,7 +280,7 @@ iframe { width: 100%; height: 100%; border: none; }
             <button class="btn" style="width:100%" onclick="generatePlan()">Generate My Plan ✨</button>
         </div>
         <div id="step4" class="study-step">
-            <div id="planList" style="text-align:left; background:#fff7f0; padding:20px; border-radius:15px; margin-bottom:20px; border: 1px dashed #ff7a00;"></div>
+            <div id="planList" style="text-align:left; background:var(--sec-game); padding:20px; border-radius:15px; margin-bottom:20px; border: 1px dashed #ff7a00;"></div>
             <button class="btn" style="width:100%" onclick="startSmartStudy()">Cholo Pori 🚀</button>
         </div>
         <div id="step5" class="study-step">
@@ -207,9 +294,11 @@ iframe { width: 100%; height: 100%; border: none; }
     </div>
 </section>
 
-<section class="cgpa-section">
-    <div class="cgpa-box">
-        <h2>UIU CGPA Calculator</h2>
+<section class="cgpa-section" id="academic-hub">
+    <div class="box-container">
+        <h2>UIU Academic Hub</h2>
+        
+        <h4 style="margin-bottom:10px; color:var(--text-main);">1. Current CGPA Calculator</h4>
         <table id="cgTable">
             <thead><tr><th>Course Name</th><th>Credit</th><th>Grade Point</th></tr></thead>
             <tbody id="cgBody">
@@ -226,6 +315,37 @@ iframe { width: 100%; height: 100%; border: none; }
             <button class="btn" style="background:#333;" onclick="downloadResult()">💾 Download</button>
         </div>
         <div id="result" class="result"></div>
+
+        <div class="divider"></div>
+
+        <h4 style="margin-bottom:10px; color:var(--text-main);">2. Target CGPA Predictor</h4>
+        <div class="flex-row">
+            <input type="number" id="predCurrentCGPA" step="0.01" placeholder="Current CGPA (e.g., 3.20)">
+            <input type="number" id="predCompletedCr" placeholder="Completed Credits (e.g., 60)">
+        </div>
+        <div class="flex-row">
+            <input type="number" id="predTargetCGPA" step="0.01" placeholder="Target CGPA (e.g., 3.50)">
+            <input type="number" id="predRemainingCr" placeholder="Remaining Credits (e.g., 60)">
+        </div>
+        <button class="btn" style="width:100%;" onclick="predictCGPA()">Predict Required GPA</button>
+        <div id="predResult" class="result-box" style="display:none; background: rgba(255,122,0,0.1); padding: 15px; border-radius: 10px; margin-top:15px;"></div>
+    </div>
+</section>
+
+<section class="financial-section" id="financial-hub">
+    <div class="box-container">
+        <h2>💸 Tuition Installment Calculator</h2>
+        <p style="text-align:center; font-size:14px; margin-bottom:20px; color:#777;">Check official UIU accounts for exact waiver deductions.</p>
+        
+        <div class="flex-row">
+            <input type="number" id="totalCredits" placeholder="Enrolled Credits (e.g., 12)">
+            <input type="number" id="costPerCredit" placeholder="Cost per Credit (e.g., 6000)">
+        </div>
+        <input type="number" id="otherFees" placeholder="Trimester Fees & Others (e.g., 6500)">
+        
+        <button class="btn" style="width:100%;" onclick="calculateTuition()">Calculate Breakdown</button>
+        
+        <div id="tuitionResult" class="result-box" style="display:none; text-align:left; font-size: 15px; background: rgba(255,122,0,0.1); padding: 15px; border-radius: 10px; margin-top:15px;"></div>
     </div>
 </section>
 
@@ -255,6 +375,27 @@ iframe { width: 100%; height: 100%; border: none; }
 </section>
 
 <script>
+/* UI & DARK MODE LOGIC */
+let menuOpen = false;
+function toggleMenu() {
+    const sidebar = document.getElementById("sidebar"), overlay = document.getElementById("overlay");
+    menuOpen = !menuOpen;
+    sidebar.style.left = menuOpen ? "0" : "-250px";
+    overlay.style.display = menuOpen ? "block" : "none";
+}
+function toggleDarkMode() {
+    document.body.classList.toggle("dark-mode");
+    toggleMenu();
+}
+
+/* ABOUT MODAL LOGIC */
+function openAbout() { 
+    document.getElementById("aboutModal").style.display = "block"; 
+    toggleMenu(); 
+}
+function closeAbout() { document.getElementById("aboutModal").style.display = "none"; }
+window.onclick = function(event) { if (event.target == document.getElementById("aboutModal")) closeAbout(); }
+
 /* VOICE SYNTHESIS */
 function speak(text) {
     const msg = new SpeechSynthesisUtterance(text);
@@ -262,7 +403,7 @@ function speak(text) {
     window.speechSynthesis.speak(msg);
 }
 
-/* CGPA LOGIC */
+/* CGPA LOGIC (Frozen) */
 function addRow(){
     let row = document.getElementById("cgBody").insertRow();
     row.innerHTML = '<td><input type="text" class="course-name"></td><td><input type="number" step="0.5" class="course-credit"></td><td><input type="number" step="0.01" class="course-grade"></td>';
@@ -288,35 +429,59 @@ function downloadResult(){
     a.href = URL.createObjectURL(blob); a.download = "UIU_Result.txt"; a.click();
 }
 
-/* SMART STUDY LOGIC */
+/* PREDICTOR LOGIC (Frozen) */
+function predictCGPA() {
+    let cCGPA = parseFloat(document.getElementById("predCurrentCGPA").value);
+    let cCr = parseFloat(document.getElementById("predCompletedCr").value);
+    let tCGPA = parseFloat(document.getElementById("predTargetCGPA").value);
+    let rCr = parseFloat(document.getElementById("predRemainingCr").value);
+    let box = document.getElementById("predResult");
+    box.style.display = "block";
+    if(!cCGPA || !cCr || !tCGPA || !rCr) { box.innerText = "Please fill all fields properly."; return; }
+    let required = ((tCGPA * (cCr + rCr)) - (cCGPA * cCr)) / rCr;
+    if(required > 4.00) { box.innerHTML = `⚠️ Required GPA is <strong>${required.toFixed(2)}</strong>, which is impossible.`; }
+    else if(required < 0) { box.innerHTML = `✅ You've already secured your target!`; }
+    else { box.innerHTML = `🎯 You need an average GPA of <strong>${required.toFixed(2)}</strong> in remaining ${rCr} credits.`; }
+}
+
+/* FINANCIAL LOGIC (Frozen) */
+function calculateTuition() {
+    let credits = parseFloat(document.getElementById("totalCredits").value);
+    let cost = parseFloat(document.getElementById("costPerCredit").value);
+    let other = parseFloat(document.getElementById("otherFees").value);
+    let box = document.getElementById("tuitionResult");
+    if(isNaN(credits) || isNaN(cost) || isNaN(other)) { 
+        box.style.display = "block"; box.innerText = "⚠️ Please fill all boxes with numbers."; return; 
+    }
+    let totalTuition = (credits * cost) + other;
+    let inst1 = totalTuition * 0.25, inst2 = totalTuition * 0.40, inst3 = totalTuition * 0.35;
+    box.style.display = "block";
+    box.innerHTML = `<strong>Total: ৳${totalTuition.toLocaleString()}</strong><br><br>1st: ৳${inst1.toLocaleString()}<br>Mid: ৳${inst2.toLocaleString()}<br>Final: ৳${inst3.toLocaleString()}`;
+}
+
+/* SMART STUDY LOGIC (Frozen) */
 let sSec=0, sTimer, bInt=45, isP=false, targetSecs=0;
 function nextStep(s){ document.querySelectorAll('.study-step').forEach(e=>e.classList.remove('active-step')); document.getElementById('step'+s).classList.add('active-step'); }
 function generatePlan(){
-    let hours = document.getElementById("studyHours").value;
-    targetSecs = hours * 3600;
-    let type = document.getElementById("studentType").value;
-    let sub = document.getElementById("subjectType").value;
+    let hours = document.getElementById("studyHours").value; targetSecs = hours * 3600;
+    let type = document.getElementById("studentType").value; let sub = document.getElementById("subjectType").value;
     bInt = type === "procrastinator" ? 25 : (type === "topper" ? 60 : 45);
-    let advice = sub === "math" ? "Solve 10 problems per session." : "Make summaries after each chapter.";
-    document.getElementById("planList").innerHTML = `<strong style="color:#ff7a00">Plan Summary:</strong><br>📅 Total: ${hours} Hours<br>⏱ Session: ${bInt} mins focus / 5 mins break<br>💡 Advice: ${advice}`;
+    document.getElementById("planList").innerHTML = `📅 Total: ${hours} Hours<br>⏱ Session: ${bInt}m focus<br>💡 Tip: ${sub === "math" ? "Solve problems." : "Summarize chapters."}`;
     nextStep(4);
 }
-function startSmartStudy(){ 
-    nextStep(5); speak("Let's start studying"); runTimer(); 
-}
+function startSmartStudy(){ nextStep(5); speak("Let's start studying"); runTimer(); }
 function runTimer(){ isP=false; document.getElementById("pauseBtn").innerText="Pause"; sTimer = setInterval(()=>{ sSec++; updateDisp(); }, 1000); }
 function updateDisp(){
     let h=Math.floor(sSec/3600), m=Math.floor((sSec%3600)/60), s=sSec%60;
     document.getElementById("stopwatchDisplay").innerText = `${h<10?'0':''}${h}:${m<10?'0':''}${m}:${s<10?'0':''}${s}`;
-    if(sSec >= targetSecs && targetSecs > 0) { clearInterval(sTimer); speak("The timer has ended"); alert("Session complete!"); }
+    if(sSec >= targetSecs && targetSecs > 0) { clearInterval(sTimer); speak("Timer ended"); alert("Session complete!"); }
 }
 function togglePause(force){ if(force || !isP){ clearInterval(sTimer); isP=true; document.getElementById("pauseBtn").innerText="Resume"; } else runTimer(); }
 function resetStudy(){ clearInterval(sTimer); sSec=0; nextStep(1); }
 
-/* GAMES */
+/* GAMES (Frozen) */
 let board = ["","","","","","","","",""], gameActive = false;
 let snakeTimer, snakeDx = 1, snakeDy = 0;
-
 function initTicTacToe() {
     clearInterval(snakeTimer); document.getElementById('mobile-controls').style.display = 'none';
     const container = document.getElementById('game-container');
@@ -326,47 +491,39 @@ function initTicTacToe() {
         let row = document.getElementById('ttt-table').insertRow();
         for(let j=0; j<3; j++) {
             let cell = row.insertCell();
-            cell.style.width="75px"; cell.style.height="75px"; cell.style.border="3px solid #ff7a00"; cell.style.fontSize="30px"; cell.style.fontWeight="bold"; cell.style.cursor="pointer";
+            cell.style.width="75px"; cell.style.height="75px"; cell.style.border="3px solid #ff7a00"; cell.style.fontSize="30px"; cell.style.cursor="pointer";
             cell.onclick = () => { if(board[i*3+j]==="" && gameActive){ board[i*3+j]="X"; updateTTT(); if(!checkGameOver(board)) setTimeout(aiMove, 300); } };
         }
     }
 }
-
 function initSnake() {
-    gameActive=false; 
-    if(window.innerWidth <= 768) document.getElementById('mobile-controls').style.display = 'grid';
+    gameActive=false; if(window.innerWidth <= 768) document.getElementById('mobile-controls').style.display = 'grid';
     const container = document.getElementById('game-container');
     container.innerHTML = `<canvas id="snakeCanvas" width="300" height="300"></canvas>`;
     const ctx = document.getElementById('snakeCanvas').getContext('2d');
-    let snake = [{x:10, y:10}], apple = {x:5, y:5};
-    snakeDx = 1; snakeDy = 0;
-    
+    let snake = [{x:10, y:10}], apple = {x:5, y:5}; snakeDx = 1; snakeDy = 0;
     window.changeDir = (x,y) => { if(x + snakeDx !== 0 || y + snakeDy !== 0){ snakeDx = x; snakeDy = y; } };
-
     clearInterval(snakeTimer);
     snakeTimer = setInterval(() => {
-        let head = {x:(snake[0].x + snakeDx + 20) % 20, y:(snake[0].y + snakeDy + 20) % 20};
-        if(snake.some(s => s.x === head.x && s.y === head.y)) { clearInterval(snakeTimer); alert("Game Over!"); return; }
+        let head = {x:(snake[0].x+snakeDx+20)%20, y:(snake[0].y+snakeDy+20)%20};
+        if(snake.some(s=>s.x===head.x && s.y===head.y)) { clearInterval(snakeTimer); alert("Game Over!"); return; }
         snake.unshift(head);
-        if(head.x === apple.x && head.y === apple.y) apple = {x:Math.floor(Math.random()*20), y:Math.floor(Math.random()*20)}; else snake.pop();
-        ctx.fillStyle="#111"; ctx.fillRect(0,0,300,300);
+        if(head.x===apple.x && head.y===apple.y) apple={x:Math.floor(Math.random()*20), y:Math.floor(Math.random()*20)}; else snake.pop();
+        ctx.fillStyle=document.body.classList.contains("dark-mode")?"#222":"#111"; ctx.fillRect(0,0,300,300);
         ctx.fillStyle="#ff7a00"; snake.forEach(s=>ctx.fillRect(s.x*15, s.y*15, 14, 14));
         ctx.fillStyle="red"; ctx.fillRect(apple.x*15, apple.y*15, 14, 14);
     }, 120);
 }
 
-/* KEYBOARD FIX */
+/* KEYBOARD FIX & AI (Frozen) */
 window.addEventListener("keydown", (e) => {
-    if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) {
-        e.preventDefault(); 
+    if(["ArrowUp", "ArrowDown", "ArrowLeft", "ArrowRight"].includes(e.key)) { e.preventDefault(); 
         if(e.key === "ArrowUp" && snakeDy === 0) window.changeDir(0, -1);
         if(e.key === "ArrowDown" && snakeDy === 0) window.changeDir(0, 1);
         if(e.key === "ArrowLeft" && snakeDx === 0) window.changeDir(-1, 0);
         if(e.key === "ArrowRight" && snakeDx === 0) window.changeDir(1, 0);
     }
 });
-
-/* TIC TAC TOE AI */
 function aiMove() {
     let bestScore = -Infinity; let move;
     for(let i=0; i<9; i++) { if(board[i] === "") { board[i] = "O"; let score = minimax(board, 0, false); board[i] = ""; if(score > bestScore) { bestScore = score; move = i; } } }
@@ -391,7 +548,7 @@ function evaluate(b) {
 }
 function updateTTT() {
     const cells = document.getElementById('ttt-table').getElementsByTagName('td');
-    for(let i=0; i<9; i++) { if(cells[i]) { cells[i].innerText = board[i]; if(board[i]==="O") cells[i].style.color="#ff7a00"; } }
+    for(let i=0; i<9; i++) if(cells[i]) { cells[i].innerText = board[i]; if(board[i]==="O") cells[i].style.color="#ff7a00"; }
 }
 function checkGameOver(b) {
     let r = evaluate(b);
