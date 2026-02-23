@@ -558,25 +558,25 @@ function checkGameOver(b) {
     return false;
 }
 </script>
-<!-- ================= PHONE SIDE OVERLAY (FIXED) ================= -->
 <style>
 .phone-head {
     position: fixed !important;
-    right: 10px !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    width: 36px;
-    height: 96px;
+    right: 14px !important; /* Moved to right */
+    bottom: 80px !important;
+    top: auto !important;
+    transform: none !important;
+    width: 32px;
+    height: 80px;
     background: #000;
-    border-radius: 22px;
+    border-radius: 20px;
     cursor: pointer;
     z-index: 999999 !important;
-    box-shadow: 0 0 25px rgba(255,122,0,0.6);
+    box-shadow: 0 0 20px rgba(255,122,0,0.5);
     display: flex;
     align-items: center;
     justify-content: center;
     color: #ff7a00;
-    font-size: 20px;
+    font-size: 18px;
     user-select: none;
 }
 
@@ -587,23 +587,29 @@ function checkGameOver(b) {
     backdrop-filter: blur(6px);
     z-index: 1000000 !important;
     display: none;
-    align-items: center;
-    justify-content: flex-end;
+    align-items: flex-end;
+    justify-content: flex-end; /* Align content to the right */
 }
 
 .phone-screen {
     width: 360px;
     height: 100vh;
     background: #111;
-    border-radius: 30px 0 0 30px;
+    border-radius: 30px 0 0 30px; /* Rounded corners on the left side */
     padding: 25px;
-    animation: slideLeft 0.35s ease forwards;
-    box-shadow: -25px 0 60px rgba(0,0,0,0.8);
+    animation: slideFromBottomRight 0.4s ease forwards; /* Updated animation */
+    box-shadow: -25px 0 60px rgba(0,0,0,0.8); /* Shadow mirrored */
 }
 
-@keyframes slideLeft {
-    from { transform: translateX(100%); }
-    to { transform: translateX(0); }
+@keyframes slideFromBottomRight {
+    from {
+        transform: translate(40%, 40%);
+        opacity: 0;
+    }
+    to {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
 }
 
 .app-grid {
@@ -636,7 +642,7 @@ function checkGameOver(b) {
 
 .app:hover .app-icon {
     background: #ff7a00;
-    transform: translateX(-4px);
+    transform: translateY(-4px);
 }
 
 .app span {
@@ -693,6 +699,5 @@ function closePhone(e){
     }
 }
 </script>
-<!-- ================= END PHONE SIDE OVERLAY ================= -->
 </body>
 </html>
